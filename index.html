@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$BLAME Token</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import new fonts for glamrock style - changed to Metal Mania and Bungee Inline -->
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Bungee+Inline&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Flashy radial gradient background */
+            background: radial-gradient(circle at top left, #3b82f6, #1e3a8a); /* A vibrant blue gradient */
+            color: #e2e8f0; /* Light text */
+        }
+        .container {
+            max-width: 960px;
+        }
+        .btn-primary {
+            background-color: #63b3ed; /* Blue for buttons */
+            color: #1a202c;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4299e1;
+        }
+        .card {
+            /* Added transparency to the card background */
+            background-color: rgba(45, 55, 72, 0.85); /* Original #2d3748 with 85% opacity */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px); /* Optional: Adds a blur effect behind the transparent card */
+        }
+        /* Apply new glamrock fonts to headings */
+        h1 {
+            font-family: 'Metal Mania', cursive; /* 'Metal Mania' for the main title */
+            letter-spacing: 0.1em; /* Add some letter spacing for effect */
+        }
+        header p {
+            font-family: 'Bungee Inline', cursive; /* 'Bungee Inline' for the subheading */
+            font-size: 1.5rem; /* Adjust size for impact */
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto text-center">
+        <header class="mb-12">
+            <!-- Updated image source to point to a GitHub raw content URL -->
+            <!-- IMPORTANT: Replace 'YOUR_GITHUB_USERNAME', 'YOUR_REPO_NAME', and 'your_logo.png' with your actual image's raw URL on GitHub -->
+            <img src="https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/your_logo.png" alt="$BLAME Token Logo" class="mx-auto mb-6 rounded-full shadow-lg w-48 h-48 object-cover">
+            <h1 class="text-5xl font-bold text-white mb-4">$BLAME Token</h1>
+            <p class="text-xl text-gray-300">Unleash the blame, embrace the chaos on Cardano!</p>
+        </header>
+
+        <main class="space-y-8">
+            <section class="card">
+                <h2 class="text-3xl font-semibold text-white mb-4">About $BLAME</h2>
+                <p class="text-gray-300 leading-relaxed">
+                    $BLAME is a Cardano native token designed for those who dare to take responsibility... or assign it! Join our community as we navigate the exciting world of decentralized finance with a touch of playful accountability.
+                </p>
+            </section>
+
+            <section class="card">
+                <h2 class="text-3xl font-semibold text-white mb-4">Tokenomics</h2>
+                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Total Supply: 1,000,000,000 $BLAME</li>
+                    <li>Ticker: $BLAME</li>
+                    <li>Platform: Cardano Native Token</li>
+                    <li>Utility: Community governance, exclusive content, and more!</li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2 class="text-3xl font-semibold text-white mb-4">Get $BLAME</h2>
+                <p class="text-gray-300 mb-6">
+                    You can find $BLAME on various decentralized exchanges within the Cardano ecosystem. Explore the links below to acquire your share of accountability!
+                </p>
+                <a href="https://www.snek.fun/token/68e44d37674a01b97247e21094e473b9807c861f8cd2eb54950603f3426c616d6569746f6e436861726c6573?1751944423885" target="_blank" rel="noopener noreferrer" class="btn-primary inline-block">
+                    Buy $BLAME on Snek.fun
+                </a>
+            </section>
+        </main>
+
+        <footer class="mt-12 text-gray-500 text-sm">
+            <p>&copy; 2025 $BLAME Token. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
