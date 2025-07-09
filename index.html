@@ -45,6 +45,62 @@
             font-family: 'Bungee Inline', cursive; /* 'Bungee Inline' for the subheading */
             font-size: 1.5rem; /* Adjust size for impact */
         }
+
+        /* Video player specific styles */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .video-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
+            background-color: black;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the video fits within the container */
+        }
+        .video-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+        }
+        .video-close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
@@ -83,11 +139,66 @@
                     Buy $BLAME on Snek.fun
                 </a>
             </section>
+
+            <!-- New section for video player -->
+            <section class="card">
+                <h2 class="text-3xl font-semibold text-white mb-4">Watch Our Video!</h2>
+                <p class="text-gray-300 mb-6">
+                    Learn more about $BLAME and our vision by watching this short video.
+                </p>
+                <button id="playVideoButton" class="btn-primary inline-block">
+                    Play Video
+                </button>
+            </section>
         </main>
 
         <footer class="mt-12 text-gray-500 text-sm">
             <p>&copy; 2025 $BLAME Token. All rights reserved.</p>
         </footer>
     </div>
+
+    <!-- Video Overlay Structure -->
+    <div id="videoOverlay" class="video-overlay">
+        <div class="video-container">
+            <button id="closeVideoBtn" class="video-close-btn">&times;</button>
+            <!-- Replace 'YOUR_VIDEO_URL_HERE.mp4' with your actual video URL -->
+            <video id="blameVideo" controls preload="auto">
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // Get references to the video elements and buttons
+        const playVideoButton = document.getElementById('playVideoButton');
+        const videoOverlay = document.getElementById('videoOverlay');
+        const blameVideo = document.getElementById('blameVideo');
+        const closeVideoBtn = document.getElementById('closeVideoBtn');
+
+        // Function to open the video
+        function openVideo() {
+            videoOverlay.classList.add('active'); // Show the overlay
+            blameVideo.play(); // Play the video
+        }
+
+        // Function to close the video
+        function closeVideo() {
+            videoOverlay.classList.remove('active'); // Hide the overlay
+            blameVideo.pause(); // Pause the video
+            blameVideo.currentTime = 0; // Reset video to the beginning
+        }
+
+        // Event listeners
+        playVideoButton.addEventListener('click', openVideo);
+        closeVideoBtn.addEventListener('click', closeVideo);
+
+        // Optional: Close video if clicking outside the video container
+        videoOverlay.addEventListener('click', (event) => {
+            if (event.target === videoOverlay) {
+                closeVideo();
+            }
+        });
+    </script>
 </body>
 </html>
