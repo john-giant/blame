@@ -184,44 +184,38 @@
         const loadingSpinner = document.getElementById('loadingSpinner');
 
         blameCharlesBtn.addEventListener('click', async () => {
-            blameOutput.innerHTML = '<p>Generating blame...</p>';
-            loadingSpinner.classList.remove('hidden');
-            blameCharlesBtn.disabled = true; // Disable button during generation
+        blameOutput.innerHTML = '<p>Generating blame...</p>';
+        loadingSpinner.classList.remove('hidden');
+        blameCharlesBtn.disabled = true;
 
-            try {
-                let chatHistory = [];
-                const prompt = "Generate a random, well-known historical disaster (e.g., the sinking of the Titanic, the Great Fire of London, the eruption of Mount Vesuvius, the Black Death, the collapse of the Roman Empire, the Hindenburg disaster, the Chernobyl disaster, the invention of Nickelback) and then write a humorous, absurd, and completely unfounded explanation of how Charles Hoskinson was secretly responsible for it. Make it sound like a conspiracy theory. Keep it concise, around 3-5 sentences.";
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+        try {
+            // Call your Netlify Function endpoint
+            const response = await fetch('/.netlify/functions/blame-charles', {
+                method: 'POST', // Or GET, depending on how you set up your function
+                headers: { 'Content-Type': 'application/json' },
+                // If your function needs any body data from the client, send it here
+                // body: JSON.stringify({ someData: 'value' })
+            });
 
-                const payload = { contents: chatHistory };
-                const apiKey = ""; // Canvas will provide this automatically
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const result = await response.json();
 
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    blameOutput.innerHTML = `<p>${text}</p>`;
-                } else {
-                    blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame. Charles is too elusive!</p>';
-                    console.error('Gemini API response structure unexpected:', result);
-                }
-            } catch (error) {
-                blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Try again!</p>';
-                console.error('Error calling Gemini API:', error);
-            } finally {
-                loadingSpinner.classList.add('hidden');
-                blameCharlesBtn.disabled = false; // Re-enable button
+            if (response.ok && result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                const text = result.candidates[0].content.parts[0].text;
+                blameOutput.innerHTML = `<p>${text}</p>`;
+            } else {
+                blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: ${result.error || 'Unknown error'}</p>`;
+                console.error('Netlify Function response error:', result);
             }
-        });
+        } catch (error) {
+            blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Try again!</p>';
+            console.error('Error calling Netlify Function:', error);
+        } finally {
+            loadingSpinner.classList.add('hidden');
+            blameCharlesBtn.disabled = false;
+        }
+    });
     </script>
 </body>
 </html>
