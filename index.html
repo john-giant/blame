@@ -47,11 +47,6 @@
 </head>
 <body class="antialiased">
 
-    <!-- Debugging Indicator -->
-    <div id="scriptStatus" class="fixed top-0 right-0 bg-yellow-200 text-yellow-800 p-2 text-xs rounded-bl-lg z-50">
-        Script Status: Loading...
-    </div>
-
     <!-- Fixed Header/Toolbar -->
     <header class="fixed top-0 left-0 w-full bg-white shadow-md z-50 py-4 px-6 md:px-12 rounded-b-lg">
         <nav class="flex items-center justify-between max-w-7xl mx-auto">
@@ -103,8 +98,6 @@
                 <div id="blameOutput" class="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-lg shadow-inner max-w-3xl w-full text-center text-lg italic animate-fade-in min-h-[100px] flex items-center justify-center">
                     <p>Click "Blame Charles!" to reveal the truth...</p>
                 </div>
-
-                <!-- Image Generation Section Removed for Debugging -->
             </div>
         </section>
 
@@ -121,7 +114,7 @@
                 <!-- Video 1 - Using a generic placeholder -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        <source src="https://raw.githubusercontent.com/john-giant/blame/main/Blame 1.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
@@ -133,7 +126,7 @@
                 <!-- Video 2 - Using a generic placeholder -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
-                        <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                        <source src="https://raw.githubusercontent.com/john-giant/blame/main/Blame 2.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
@@ -166,97 +159,55 @@
     </footer>
 
     <script>
-        // This log should appear immediately if the script is loaded and parsed.
-        console.log("--- Script tag started parsing. (Very first log) ---");
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-        // Get the script status element
-        const scriptStatusDiv = document.getElementById('scriptStatus');
-
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("--- DOMContentLoaded event fired. ---");
-            if (scriptStatusDiv) {
-                scriptStatusDiv.textContent = "Script Status: DOM Loaded!";
-                scriptStatusDiv.classList.remove('bg-yellow-200', 'text-yellow-800');
-                scriptStatusDiv.classList.add('bg-green-200', 'text-green-800');
-            }
-
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
+        });
 
-            // Blame Charles AI Agent
-            const blameCharlesBtn = document.getElementById('blameCharlesBtn');
-            const blameOutput = document.getElementById('blameOutput');
-            const loadingSpinner = document.getElementById('loadingSpinner');
+        // Blame Charles AI Agent
+        const blameCharlesBtn = document.getElementById('blameCharlesBtn');
+        const blameOutput = document.getElementById('blameOutput');
+        const loadingSpinner = document.getElementById('loadingSpinner');
 
-            // Check if elements are found
-            if (blameCharlesBtn) {
-                console.log("blameCharlesBtn found successfully.");
-                if (scriptStatusDiv) scriptStatusDiv.textContent += " Button found.";
+        blameCharlesBtn.addEventListener('click', async () => {
+            blameOutput.innerHTML = '<p>Generating blame...</p>';
+            loadingSpinner.classList.remove('hidden');
+            blameCharlesBtn.disabled = true; // Disable button during generation
 
-                blameCharlesBtn.addEventListener('click', async () => {
-                    console.log("Blame Charles button clicked! Initiating fetch..."); // Log on click
-                    if (scriptStatusDiv) scriptStatusDiv.textContent = "Script Status: Button clicked, fetching...";
-
-                    blameOutput.innerHTML = '<p>Generating blame...</p>';
-                    loadingSpinner.classList.remove('hidden');
-                    blameCharlesBtn.disabled = true; // Disable blame button during generation
-
-                    try {
-                        console.log("Fetching from /.netlify/functions/blame-charles..."); // Log before fetch
-                        const response = await fetch('/.netlify/functions/blame-charles', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                        });
-                        console.log("Fetch response received. Status:", response.status); // Log after fetch
-                        if (scriptStatusDiv) scriptStatusDiv.textContent = `Script Status: Fetch response ${response.status}.`;
-
-
-                        const result = await response.json();
-                        console.log("Parsed JSON response:", result); // Log the parsed JSON
-
-                        if (response.ok) {
-                            if (result.candidates && result.candidates.length > 0 &&
-                                result.candidates[0].content && result.candidates[0].content.parts &&
-                                result.candidates[0].content.parts.length > 0) {
-                                const text = result.candidates[0].content.parts[0].text;
-                                blameOutput.innerHTML = `<p>${text}</p>`;
-                                console.log("Blame generated successfully.");
-                                if (scriptStatusDiv) scriptStatusDiv.textContent = "Script Status: Blame generated!";
-                            } else {
-                                blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame: Unexpected AI response format.</p>';
-                                console.error('Netlify Function returned unexpected AI response structure:', result);
-                                if (scriptStatusDiv) scriptStatusDiv.textContent = "Script Status: AI response error.";
-                            }
-                        } else {
-                            blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: Server error (${response.status} ${response.statusText}).</p>`;
-                            console.error('Netlify Function error response:', result);
-                            if (scriptStatusDiv) scriptStatusDiv.textContent = `Script Status: Server error ${response.status}.`;
-                        }
-                    } catch (error) {
-                        blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Please check your Netlify Function setup.</p>';
-                        console.error('Error calling Netlify Function:', error);
-                        if (scriptStatusDiv) scriptStatusDiv.textContent = "Script Status: Fetch error!";
-                    } finally {
-                        loadingSpinner.classList.add('hidden');
-                        blameCharlesBtn.disabled = false; // Re-enable blame button
-                        console.log("Blame generation process finished.");
-                    }
+            try {
+                const response = await fetch('/.netlify/functions/blame-charles', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                 });
-            } else {
-                console.error("blameCharlesBtn with ID 'blameCharlesBtn' not found in the DOM!"); // Specific error if button is missing
-                if (scriptStatusDiv) {
-                    scriptStatusDiv.textContent = "Script Status: Button NOT found!";
-                    scriptStatusDiv.classList.remove('bg-yellow-200', 'text-yellow-800');
-                    scriptStatusDiv.classList.add('bg-red-200', 'text-red-800');
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        blameOutput.innerHTML = `<p>${text}</p>`;
+                    } else {
+                        blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame: Unexpected AI response format.</p>';
+                        console.error('Netlify Function returned unexpected AI response structure:', result);
+                    }
+                } else {
+                    blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: Server error (${response.status} ${response.statusText}).</p>`;
+                    console.error('Netlify Function error response:', result);
                 }
+            } catch (error) {
+                blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Please check your Netlify Function setup.</p>';
+                console.error('Error calling Netlify Function:', error);
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                blameCharlesBtn.disabled = false; // Re-enable button
             }
         });
     </script>
