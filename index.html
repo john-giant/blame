@@ -108,7 +108,7 @@
                     <p>Click "Blame Charles!" to reveal the truth...</p>
                 </div>
 
-                <!-- Image Generation Section -->
+                <!-- Image Generation Section Re-added -->
                 <div class="mt-8 text-center w-full max-w-3xl">
                     <button id="generateImageBtn" class="gradient-button text-white font-bold py-3 px-6 rounded-full shadow-lg text-lg focus:outline-none focus:ring-4 focus:ring-blue-300 opacity-50 cursor-not-allowed" disabled>
                         Generate Image from Blame
@@ -134,41 +134,38 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Video 1 -->
+                <!-- Video 1 - Using a generic placeholder -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
-                        <!-- Updated source for the first video -->
-                        <source src="https://raw.githubusercontent.com/john-giant/blame/main/Blame 1.mp4" type="video/mp4">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
-                        <h3 class="font-semibold text-xl text-gray-800 mb-2">The BLAME Manifesto</h3>
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">The BLAME Manifesto (Placeholder)</h3>
                         <p class="text-gray-600 text-sm">Discover the core principles and vision of the BLAME Token.</p>
                     </div>
                 </div>
 
-                <!-- Video 2 -->
+                <!-- Video 2 - Using a generic placeholder -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
-                        <!-- Updated source for the second video -->
-                        <source src="https://raw.githubusercontent.com/john-giant/blame/main/Blame 2.mp4" type="video/mp4">
+                        <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
-                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Community Highlights</h3>
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Community Highlights (Placeholder)</h3>
                         <p class="text-gray-600 text-sm">See how our community is embracing the art of blaming.</p>
                     </div>
                 </div>
 
-                <!-- Video 3 -->
+                <!-- Video 3 - Using a generic placeholder -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
-                        <!-- Replace with your actual video path -->
                         <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
-                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Future of Blame</h3>
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Future of Blame (Placeholder)</h3>
                         <p class="text-gray-600 text-sm">A sneak peek into upcoming features and partnerships.</p>
                     </div>
                 </div>
@@ -200,9 +197,9 @@
         const blameCharlesBtn = document.getElementById('blameCharlesBtn');
         const blameOutput = document.getElementById('blameOutput');
         const loadingSpinner = document.getElementById('loadingSpinner');
-        const generateImageBtn = document.getElementById('generateImageBtn');
-        const imageOutput = document.getElementById('imageOutput');
-        const imageLoadingSpinner = document.getElementById('imageLoadingSpinner');
+        const generateImageBtn = document.getElementById('generateImageBtn'); // Re-added
+        const imageOutput = document.getElementById('imageOutput'); // Re-added
+        const imageLoadingSpinner = document.getElementById('imageLoadingSpinner'); // Re-added
 
         blameCharlesBtn.addEventListener('click', async () => {
             blameOutput.innerHTML = '<p>Generating blame...</p>';
@@ -247,6 +244,7 @@
             }
         });
 
+        // Re-added generateImageBtn event listener
         generateImageBtn.addEventListener('click', async () => {
             const blameText = blameOutput.querySelector('p').innerText; // Get the blame text
             if (!blameText || blameText.includes('Click "Blame Charles!"') || blameText.includes('Failed to generate blame')) {
