@@ -108,7 +108,7 @@
                     <p>Click "Blame Charles!" to reveal the truth...</p>
                 </div>
 
-                <!-- Image Generation Section Re-added -->
+                <!-- Image Generation Section -->
                 <div class="mt-8 text-center w-full max-w-3xl">
                     <button id="generateImageBtn" class="gradient-button text-white font-bold py-3 px-6 rounded-full shadow-lg text-lg focus:outline-none focus:ring-4 focus:ring-blue-300 opacity-50 cursor-not-allowed" disabled>
                         Generate Image from Blame
@@ -182,6 +182,8 @@
     </footer>
 
     <script>
+        console.log("Script loaded."); // Log when the script starts
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -197,93 +199,115 @@
         const blameCharlesBtn = document.getElementById('blameCharlesBtn');
         const blameOutput = document.getElementById('blameOutput');
         const loadingSpinner = document.getElementById('loadingSpinner');
-        const generateImageBtn = document.getElementById('generateImageBtn'); // Re-added
-        const imageOutput = document.getElementById('imageOutput'); // Re-added
-        const imageLoadingSpinner = document.getElementById('imageLoadingSpinner'); // Re-added
+        const generateImageBtn = document.getElementById('generateImageBtn');
+        const imageOutput = document.getElementById('imageOutput');
+        const imageLoadingSpinner = document.getElementById('imageLoadingSpinner');
 
-        blameCharlesBtn.addEventListener('click', async () => {
-            blameOutput.innerHTML = '<p>Generating blame...</p>';
-            imageOutput.innerHTML = '<p>Image will appear here...</p>'; // Clear previous image
-            imageOutput.classList.add('image-placeholder'); // Reset placeholder style
-            generateImageBtn.disabled = true; // Disable image button until blame is generated
-            generateImageBtn.classList.add('opacity-50', 'cursor-not-allowed'); // Visually disable
-            loadingSpinner.classList.remove('hidden');
-            blameCharlesBtn.disabled = true; // Disable blame button during generation
+        // Check if elements are found
+        if (blameCharlesBtn) {
+            console.log("blameCharlesBtn found.");
+            blameCharlesBtn.addEventListener('click', async () => {
+                console.log("Blame Charles button clicked!"); // Log on click
+                blameOutput.innerHTML = '<p>Generating blame...</p>';
+                imageOutput.innerHTML = '<p>Image will appear here...</p>'; // Clear previous image
+                imageOutput.classList.add('image-placeholder'); // Reset placeholder style
+                generateImageBtn.disabled = true; // Disable image button until blame is generated
+                generateImageBtn.classList.add('opacity-50', 'cursor-not-allowed'); // Visually disable
+                loadingSpinner.classList.remove('hidden');
+                blameCharlesBtn.disabled = true; // Disable blame button during generation
 
-            try {
-                // Call your Netlify Function endpoint for blame generation
-                const response = await fetch('/.netlify/functions/blame-charles', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                });
+                try {
+                    console.log("Attempting to fetch from /.netlify/functions/blame-charles..."); // Log before fetch
+                    const response = await fetch('/.netlify/functions/blame-charles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
+                    console.log("Fetch response received."); // Log after fetch
 
-                const result = await response.json();
+                    const result = await response.json();
+                    console.log("Parsed JSON response:", result); // Log the parsed JSON
 
-                if (response.ok) {
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        blameOutput.innerHTML = `<p>${text}</p>`;
-                        generateImageBtn.disabled = false; // Enable image button
-                        generateImageBtn.classList.remove('opacity-50', 'cursor-not-allowed'); // Visually enable
+                    if (response.ok) {
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            blameOutput.innerHTML = `<p>${text}</p>`;
+                            generateImageBtn.disabled = false; // Enable image button
+                            generateImageBtn.classList.remove('opacity-50', 'cursor-not-allowed'); // Visually enable
+                            console.log("Blame generated successfully.");
+                        } else {
+                            blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame: Unexpected AI response format.</p>';
+                            console.error('Netlify Function returned unexpected AI response structure:', result);
+                        }
                     } else {
-                        blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame: Unexpected AI response format.</p>';
-                        console.error('Netlify Function returned unexpected AI response structure:', result);
+                        blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: Server error (${response.status} ${response.statusText}).</p>`;
+                        console.error('Netlify Function error response:', result);
                     }
-                } else {
-                    blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: Server error (${response.status} ${response.statusText}).</p>`;
-                    console.error('Netlify Function error response:', result);
+                } catch (error) {
+                    blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Please check your Netlify Function setup.</p>';
+                    console.error('Error calling Netlify Function:', error);
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                    blameCharlesBtn.disabled = false; // Re-enable blame button
+                    console.log("Blame generation process finished.");
                 }
-            } catch (error) {
-                blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Please check your Netlify Function setup.</p>';
-                console.error('Error calling Netlify Function:', error);
-            } finally {
-                loadingSpinner.classList.add('hidden');
-                blameCharlesBtn.disabled = false; // Re-enable blame button
-            }
-        });
+            });
+        } else {
+            console.error("blameCharlesBtn not found!"); // Log if button is not found
+        }
 
-        // Re-added generateImageBtn event listener
-        generateImageBtn.addEventListener('click', async () => {
-            const blameText = blameOutput.querySelector('p').innerText; // Get the blame text
-            if (!blameText || blameText.includes('Click "Blame Charles!"') || blameText.includes('Failed to generate blame')) {
-                imageOutput.innerHTML = '<p class="text-red-600">Please generate blame first!</p>';
-                return;
-            }
 
-            imageOutput.innerHTML = '<p>Generating image...</p>';
-            imageOutput.classList.add('image-placeholder');
-            imageLoadingSpinner.classList.remove('hidden');
-            generateImageBtn.disabled = true;
-            generateImageBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-            try {
-                const response = await fetch('/.netlify/functions/generate-image', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: blameText }) // Send the blame text as prompt
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                    imageOutput.innerHTML = `<img src="${imageUrl}" alt="Generated image based on blame" class="w-full h-full object-contain rounded-lg">`;
-                    imageOutput.classList.remove('image-placeholder'); // Remove placeholder style
-                } else {
-                    imageOutput.innerHTML = '<p class="text-red-600">Failed to generate image: Unexpected API response.</p>';
-                    console.error('Image generation API response error:', result);
+        if (generateImageBtn) {
+            console.log("generateImageBtn found.");
+            generateImageBtn.addEventListener('click', async () => {
+                console.log("Generate Image button clicked!"); // Log on click
+                const blameText = blameOutput.querySelector('p').innerText; // Get the blame text
+                if (!blameText || blameText.includes('Click "Blame Charles!"') || blameText.includes('Failed to generate blame')) {
+                    imageOutput.innerHTML = '<p class="text-red-600">Please generate blame first!</p>';
+                    return;
                 }
-            } catch (error) {
-                imageOutput.innerHTML = '<p class="text-red-600">Error generating image. Try again!</p>';
-                console.error('Error calling image generation Netlify Function:', error);
-            } finally {
-                imageLoadingSpinner.classList.add('hidden');
-                generateImageBtn.disabled = false;
-                generateImageBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            }
-        });
+
+                imageOutput.innerHTML = '<p>Generating image...</p>';
+                imageOutput.classList.add('image-placeholder');
+                imageLoadingSpinner.classList.remove('hidden');
+                generateImageBtn.disabled = true;
+                generateImageBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+                try {
+                    console.log("Attempting to fetch from /.netlify/functions/generate-image..."); // Log before fetch
+                    const response = await fetch('/.netlify/functions/generate-image', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: blameText }) // Send the blame text as prompt
+                    });
+                    console.log("Fetch image response received."); // Log after fetch
+
+                    const result = await response.json();
+                    console.log("Parsed JSON image response:", result); // Log the parsed JSON
+
+                    if (response.ok && result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                        const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                        imageOutput.innerHTML = `<img src="${imageUrl}" alt="Generated image based on blame" class="w-full h-full object-contain rounded-lg">`;
+                        imageOutput.classList.remove('image-placeholder'); // Remove placeholder style
+                        console.log("Image generated successfully.");
+                    } else {
+                        imageOutput.innerHTML = '<p class="text-red-600">Failed to generate image: Unexpected API response.</p>';
+                        console.error('Image generation API response error:', result);
+                    }
+                } catch (error) {
+                    imageOutput.innerHTML = '<p class="text-red-600">Error generating image. Try again!</p>';
+                    console.error('Error calling image generation Netlify Function:', error);
+                } finally {
+                    imageLoadingSpinner.classList.add('hidden');
+                    generateImageBtn.disabled = false;
+                    generateImageBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    console.log("Image generation process finished.");
+                }
+            });
+        } else {
+            console.error("generateImageBtn not found!"); // Log if button is not found
+        }
     </script>
 </body>
 </html>
