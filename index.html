@@ -3,200 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$BLAME Token</title>
+    <title>BLAME Token Official Website</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Import new fonts for glamrock style - changed to Metal Mania and Bungee Inline -->
-    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Bungee+Inline&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Flashy radial gradient background */
-            background: radial-gradient(circle at top left, #3b82f6, #1e3a8a); /* A vibrant blue gradient */
-            color: #e2e8f0; /* Light text */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            background-color: #f0f2f5; /* Light grey background */
+            color: #333; /* Default text color */
         }
-        .container {
-            max-width: 960px;
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .btn-primary {
-            background-color: #63b3ed; /* Blue for buttons */
-            color: #1a202c;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
         }
-        .btn-primary:hover {
-            background-color: #4299e1;
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
         }
-        .card {
-            /* Added transparency to the card background */
-            background-color: rgba(45, 55, 72, 0.85); /* Original #2d3748 with 85% opacity */
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px); /* Optional: Adds a blur effect behind the transparent card */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
-        /* Apply new glamrock fonts to headings */
-        h1 {
-            font-family: 'Metal Mania', cursive; /* 'Metal Mania' for the main title */
-            letter-spacing: 0.1em; /* Add some letter spacing for effect */
+        .section-padding {
+            padding-top: 80px; /* Account for fixed header */
+            padding-bottom: 40px;
         }
-        header p {
-            font-family: 'Bungee Inline', cursive; /* 'Bungee Inline' for the subheading */
-            font-size: 1.5rem; /* Adjust size for impact */
+        .gradient-button {
+            background: linear-gradient(90deg, #1a73e8, #4285f4);
+            transition: all 0.3s ease;
         }
-
-        /* Video player specific styles */
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .video-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .video-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
-            background-color: black;
-            border-radius: 0.75rem;
-            overflow: hidden;
-        }
-        .video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ensure the video fits within the container */
-        }
-        .video-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: rgba(255, 255, 255, 0.3);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 2.5rem;
-            height: 2.5rem;
-            font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1001;
-            transition: background-color 0.3s ease;
-        }
-        .video-close-btn:hover {
-            background-color: rgba(255, 255, 255, 0.5);
+        .gradient-button:hover {
+            background: linear-gradient(90deg, #4285f4, #1a73e8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
-    <div class="container mx-auto text-center">
-        <header class="mb-12">
-            <!-- Corrected image source to the raw GitHub URL -->
-            <img src="https://raw.githubusercontent.com/john-giant/blame/main/blame.png" alt="$BLAME Token Logo" class="mx-auto mb-6 rounded-full shadow-lg w-48 h-48 object-cover">
-            <h1 class="text-5xl font-bold text-white mb-4">$BLAME Token</h1>
-            <p class="text-xl text-gray-300">Unleash the blame, embrace the chaos on Cardano!</p>
-        </header>
+<body class="antialiased">
 
-        <main class="space-y-8">
-            <section class="card">
-                <h2 class="text-3xl font-semibold text-white mb-4">About $BLAME</h2>
-                <p class="text-gray-300 leading-relaxed">
-                    $BLAME is a Cardano native token designed for those who dare to take responsibility... or assign it! Join our community as we navigate the exciting world of decentralized finance with a touch of playful accountability.
+    <!-- Fixed Header/Toolbar -->
+    <header class="fixed top-0 left-0 w-full bg-white shadow-md z-50 py-4 px-6 md:px-12 rounded-b-lg">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <img src="https://raw.githubusercontent.com/john-giant/blame/main/blame.png" class="h-10 w-10 rounded-full shadow-sm">
+                <span class="text-2xl font-bold text-gray-800">BLAME Token</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="flex space-x-6 md:space-x-10">
+                <li><a href="#home" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 rounded-md py-2 px-3">Home</a></li>
+                <li><a href="https://www.snek.fun/token/68e44d37674a01b97247e21094e473b9807c861f8cd2eb54950603f3426c616d6569746f6e4361726c6573?1752118059369" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 rounded-md py-2 px-3">Buy $BLAME</a></li>
+                <li><a href="#blame-charles" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 rounded-md py-2 px-3">Blame Charles</a></li>
+                <li><a href="#media" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 rounded-md py-2 px-3">Media</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="pt-20"> <!-- Padding top to prevent content from being hidden by fixed header -->
+
+        <!-- Home Section -->
+        <section id="home" class="relative bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-20 md:py-32 section-padding rounded-b-xl shadow-lg">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Welcome to the BLAME Token Ecosystem</h1>
+                <p class="text-lg md:text-xl mb-10 opacity-90 max-w-3xl mx-auto">
+                    The revolutionary cryptocurrency that lets you creatively assign blame for historical misfortunes. Join the movement!
                 </p>
-            </section>
-
-            <section class="card">
-                <h2 class="text-3xl font-semibold text-white mb-4">Tokenomics</h2>
-                <ul class="list-disc list-inside text-gray-300 space-y-2">
-                    <li>Total Supply: 1,000,000,000 $BLAME</li>
-                    <li>Ticker: $BLAME</li>
-                    <li>Platform: Cardano Native Token</li>
-                    <li>Utility: Community governance, exclusive content, and more!</li>
-                </ul>
-            </section>
-
-            <section class="card">
-                <h2 class="text-3xl font-semibold text-white mb-4">Get $BLAME</h2>
-                <p class="text-gray-300 mb-6">
-                    You can find $BLAME on various decentralized exchanges within the Cardano ecosystem. Explore the links below to acquire your share of accountability!
-                </p>
-                <a href="https://www.snek.fun/token/68e44d37674a01b97247e21094e473b9807c861f8cd2eb54950603f3426c616d6569746f6e436861726c6573?1751944423885" target="_blank" rel="noopener noreferrer" class="btn-primary inline-block">
-                    Buy $BLAME on Snek.fun
+                <a href="https://www.snek.fun/token/68e44d37674a01b97247e21094e473b9807c861f8cd2eb54950603f3426c616d6569746f6e4361726c6573?1752118059369" target="_blank" class="inline-block px-8 py-4 text-lg font-semibold bg-white text-blue-600 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105">
+                    Buy $BLAME Now!
                 </a>
-            </section>
+            </div>
+        </section>
 
-            <!-- New section for video player -->
-            <section class="card">
-                <h2 class="text-3xl font-semibold text-white mb-4">Watch Our Video!</h2>
-                <p class="text-gray-300 mb-6">
-                    Learn more about $BLAME and our vision by watching this short video.
+        <!-- Blame Charles Section -->
+        <section id="blame-charles" class="py-16 md:py-24 bg-white section-padding rounded-xl shadow-md mx-auto max-w-7xl my-8 px-6 md:px-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Blame Charles for Everything!</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Click the button below to generate a random historical disaster and find out how Charles Hoskinson was secretly involved.
                 </p>
-                <button id="playVideoButton" class="btn-primary inline-block">
-                    Play Video
+            </div>
+
+            <div class="flex flex-col items-center">
+                <button id="blameCharlesBtn" class="gradient-button text-white font-bold py-4 px-8 rounded-full shadow-lg text-xl mb-8 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    Blame Charles!
                 </button>
-            </section>
-        </main>
 
-        <footer class="mt-12 text-gray-500 text-sm">
-            <p>&copy; 2025 $BLAME Token. All rights reserved.</p>
-        </footer>
-    </div>
+                <div id="blameOutput" class="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-lg shadow-inner max-w-3xl w-full text-center text-lg italic animate-fade-in min-h-[100px] flex items-center justify-center">
+                    <p>Click "Blame Charles!" to reveal the truth...</p>
+                </div>
 
-    <!-- Video Overlay Structure -->
-    <div id="videoOverlay" class="video-overlay">
-        <div class="video-container">
-            <button id="closeVideoBtn" class="video-close-btn">&times;</button>
-            <!-- Replace 'YOUR_VIDEO_URL_HERE.mp4' with your actual video URL -->
-            <video id="blameVideo" controls preload="auto">
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="hidden mt-4">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media Section -->
+        <section id="media" class="py-16 md:py-24 bg-gray-100 section-padding rounded-xl shadow-md mx-auto max-w-7xl my-8 px-6 md:px-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">BLAME Token Media</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Explore our collection of videos showcasing the power and philosophy behind the BLAME Token.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Video 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
+                    <video controls class="w-full h-auto rounded-t-lg">
+                        <!-- Replace with your actual video path -->
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">The BLAME Manifesto</h3>
+                        <p class="text-gray-600 text-sm">Discover the core principles and vision of the BLAME Token.</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
+                    <video controls class="w-full h-auto rounded-t-lg">
+                        <!-- Replace with your actual video path -->
+                        <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Community Highlights</h3>
+                        <p class="text-gray-600 text-sm">See how our community is embracing the art of blaming.</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
+                    <video controls class="w-full h-auto rounded-t-lg">
+                        <!-- Replace with your actual video path -->
+                        <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Future of Blame</h3>
+                        <p class="text-gray-600 text-sm">A sneak peek into upcoming features and partnerships.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 text-center rounded-t-lg">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <p>&copy; 2025 BLAME Token. All rights reserved. Blame Charles for any website issues.</p>
         </div>
-    </div>
+    </footer>
 
     <script>
-        // Get references to the video elements and buttons
-        const playVideoButton = document.getElementById('playVideoButton');
-        const videoOverlay = document.getElementById('videoOverlay');
-        const blameVideo = document.getElementById('blameVideo');
-        const closeVideoBtn = document.getElementById('closeVideoBtn');
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-        // Function to open the video
-        function openVideo() {
-            videoOverlay.classList.add('active'); // Show the overlay
-            blameVideo.play(); // Play the video
-        }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-        // Function to close the video
-        function closeVideo() {
-            videoOverlay.classList.remove('active'); // Hide the overlay
-            blameVideo.pause(); // Pause the video
-            blameVideo.currentTime = 0; // Reset video to the beginning
-        }
+        // Blame Charles AI Agent
+        const blameCharlesBtn = document.getElementById('blameCharlesBtn');
+        const blameOutput = document.getElementById('blameOutput');
+        const loadingSpinner = document.getElementById('loadingSpinner');
 
-        // Event listeners
-        playVideoButton.addEventListener('click', openVideo);
-        closeVideoBtn.addEventListener('click', closeVideo);
+        blameCharlesBtn.addEventListener('click', async () => {
+            blameOutput.innerHTML = '<p>Generating blame...</p>';
+            loadingSpinner.classList.remove('hidden');
+            blameCharlesBtn.disabled = true; // Disable button during generation
 
-        // Optional: Close video if clicking outside the video container
-        videoOverlay.addEventListener('click', (event) => {
-            if (event.target === videoOverlay) {
-                closeVideo();
+            try {
+                let chatHistory = [];
+                const prompt = "Generate a random, well-known historical disaster (e.g., the sinking of the Titanic, the Great Fire of London, the eruption of Mount Vesuvius, the Black Death, the collapse of the Roman Empire, the Hindenburg disaster, the Chernobyl disaster, the invention of Nickelback) and then write a humorous, absurd, and completely unfounded explanation of how Charles Hoskinson was secretly responsible for it. Make it sound like a conspiracy theory. Keep it concise, around 3-5 sentences.";
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Canvas will provide this automatically
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    blameOutput.innerHTML = `<p>${text}</p>`;
+                } else {
+                    blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame. Charles is too elusive!</p>';
+                    console.error('Gemini API response structure unexpected:', result);
+                }
+            } catch (error) {
+                blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Try again!</p>';
+                console.error('Error calling Gemini API:', error);
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                blameCharlesBtn.disabled = false; // Re-enable button
             }
         });
     </script>
