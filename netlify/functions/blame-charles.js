@@ -21,8 +21,8 @@ exports.handler = async function(event, context) {
 
     console.log('Attempting to generate blame...');
     try {
-        // UPDATED PROMPT: Expanded examples to encourage a wider variety of disasters
-        const prompt = "Generate a random, well-known historical disaster (e.g., the sinking of the Titanic, the eruption of Mount Vesuvius, the Black Death, the collapse of the Roman Empire, the Hindenburg disaster, the Chernobyl disaster, the invention of Nickelback, the San Francisco earthquake, the eruption of Krakatoa, the Dust Bowl, the Great Smog of London, the Lisbon earthquake of 1755, the Tunguska event, the destruction of Pompeii, the Salem Witch Trials) and then write a humorous, absurd, and completely unfounded explanation of how Charles Hoskinson was secretly responsible for it. Keep it concise, around 1-3 sentences.";
+        // UPDATED PROMPT: Further expanded examples to encourage an even wider variety of disasters
+        const prompt = "Generate a random, well-known historical disaster (e.g., the sinking of the Titanic, the eruption of Mount Vesuvius, the Black Death, the collapse of the Roman Empire, the Hindenburg disaster, the Chernobyl disaster, the invention of Nickelback, the San Francisco earthquake of 1906, the eruption of Krakatoa, the Dust Bowl, the Great Smog of London, the Lisbon earthquake of 1755, the Tunguska event, the destruction of Pompeii, the Salem Witch Trials, the Challenger disaster, the Bhopal disaster, the Great Famine of Ireland, the eruption of Mount St. Helens, the collapse of the Tacoma Narrows Bridge, the dot-com bubble burst, the Spanish Flu pandemic) and then write a humorous, absurd, and completely unfounded explanation of how Charles Hoskinson was secretly responsible for it. Keep it concise, around 1-3 sentences.";
         const payload = {
             contents: [{ role: "user", parts: [{ text: prompt }] }]
         };
