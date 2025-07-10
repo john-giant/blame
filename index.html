@@ -75,7 +75,7 @@
                 <p class="text-lg md:text-xl mb-10 opacity-90 max-w-3xl mx-auto">
                     The revolutionary cryptocurrency that lets you creatively assign blame for historical misfortunes. Join the movement!
                 </p>
-                <a href="https://www.snek.fun/token/68e44d37674a01b97247e21094e473b9807c861f8cd2eb54950603f3426c616d6569746f6e4361726c616d6569746f6e4361726c6573?1752118059369" target="_blank" class="inline-block px-8 py-4 text-lg font-semibold bg-white text-blue-600 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105">
+                <a href="https://www.snek.fun/token/68e44d37674a01b97247e21094e473b9807c861f8cd2eb54950603f3426c616d6569746f6e4361726c616d6569746f6e4361726c616d6569746f6e4361726c6573?1752118059369" target="_blank" class="inline-block px-8 py-4 text-lg font-semibold bg-white text-blue-600 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105">
                     Buy $BLAME Now!
                 </a>
             </div>
@@ -98,6 +98,11 @@
                 <div id="blameOutput" class="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-lg shadow-inner max-w-3xl w-full text-center text-lg italic animate-fade-in min-h-[100px] flex items-center justify-center">
                     <p>Click "Blame Charles!" to reveal the truth...</p>
                 </div>
+
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="hidden mt-4">
+                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+                </div>
             </div>
         </section>
 
@@ -111,38 +116,38 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Video 1 - Using a generic placeholder -->
+                <!-- Video 1 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
                         <source src="https://raw.githubusercontent.com/john-giant/blame/main/Blame 1.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
-                        <h3 class="font-semibold text-xl text-gray-800 mb-2">The BLAME Manifesto (Placeholder)</h3>
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">The BLAME Manifesto</h3>
                         <p class="text-gray-600 text-sm">Discover the core principles and vision of the BLAME Token.</p>
                     </div>
                 </div>
 
-                <!-- Video 2 - Using a generic placeholder -->
+                <!-- Video 2 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
                         <source src="https://raw.githubusercontent.com/john-giant/blame/main/Blame 2.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
-                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Community Highlights (Placeholder)</h3>
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Community Highlights</h3>
                         <p class="text-gray-600 text-sm">See how our community is embracing the art of blaming.</p>
                     </div>
                 </div>
 
-                <!-- Video 3 - Using a generic placeholder -->
+                <!-- Video 3 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105">
                     <video controls class="w-full h-auto rounded-t-lg">
                         <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="p-4">
-                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Future of Blame (Placeholder)</h3>
+                        <h3 class="font-semibold text-xl text-gray-800 mb-2">Future of Blame</h3>
                         <p class="text-gray-600 text-sm">A sneak peek into upcoming features and partnerships.</p>
                     </div>
                 </div>
@@ -159,55 +164,73 @@
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        console.log("--- Script tag started parsing. (Very first log) ---");
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("--- DOMContentLoaded event fired. ---");
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 });
             });
-        });
 
-        // Blame Charles AI Agent
-        const blameCharlesBtn = document.getElementById('blameCharlesBtn');
-        const blameOutput = document.getElementById('blameOutput');
-        const loadingSpinner = document.getElementById('loadingSpinner');
+            // Blame Charles AI Agent
+            const blameCharlesBtn = document.getElementById('blameCharlesBtn');
+            const blameOutput = document.getElementById('blameOutput');
+            const loadingSpinner = document.getElementById('loadingSpinner');
 
-        blameCharlesBtn.addEventListener('click', async () => {
-            blameOutput.innerHTML = '<p>Generating blame...</p>';
-            loadingSpinner.classList.remove('hidden');
-            blameCharlesBtn.disabled = true; // Disable button during generation
+            // Check if elements are found
+            if (blameCharlesBtn) {
+                console.log("blameCharlesBtn found successfully.");
+                blameCharlesBtn.addEventListener('click', async () => {
+                    console.log("Blame Charles button clicked! Initiating fetch..."); // Log on click
+                    blameOutput.innerHTML = '<p>Generating blame...</p>';
+                    loadingSpinner.classList.remove('hidden');
+                    blameCharlesBtn.disabled = true; // Disable blame button during generation
 
-            try {
-                const response = await fetch('/.netlify/functions/blame-charles', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                });
+                    try {
+                        console.log("Fetching from /.netlify/functions/blame-charles..."); // Log before fetch
+                        const response = await fetch('/.netlify/functions/blame-charles', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                        });
+                        console.log("Fetch response received. Status:", response.status); // Log after fetch
 
-                const result = await response.json();
+                        const result = await response.json();
+                        console.log("Parsed JSON response:", result); // Log the parsed JSON
 
-                if (response.ok) {
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        blameOutput.innerHTML = `<p>${text}</p>`;
-                    } else {
-                        blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame: Unexpected AI response format.</p>';
-                        console.error('Netlify Function returned unexpected AI response structure:', result);
+                        if (response.ok) {
+                            if (result.candidates && result.candidates.length > 0 &&
+                                result.candidates[0].content && result.candidates[0].content.parts &&
+                                result.candidates[0].content.parts.length > 0) {
+                                const text = result.candidates[0].content.parts[0].text;
+                                blameOutput.innerHTML = `<p>${text}</p>`;
+                                console.log("Blame generated successfully.");
+                            } else {
+                                blameOutput.innerHTML = '<p class="text-red-600">Failed to generate blame: Unexpected AI response format.</p>';
+                                console.error('Netlify Function returned unexpected AI response structure:', result);
+                            }
+                        } else {
+                            blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: Server error (${response.status} ${response.statusText}).</p>`;
+                            console.error('Netlify Function error response:', result);
+                        }
+                    } catch (error) {
+                        blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Please check your Netlify Function setup.</p>';
+                        console.error('Error calling Netlify Function:', error);
+                    } finally {
+                        loadingSpinner.classList.add('hidden');
+                        blameCharlesBtn.disabled = false; // Re-enable blame button
+                        console.log("Blame generation process finished.");
                     }
-                } else {
-                    blameOutput.innerHTML = `<p class="text-red-600">Failed to generate blame: Server error (${response.status} ${response.statusText}).</p>`;
-                    console.error('Netlify Function error response:', result);
-                }
-            } catch (error) {
-                blameOutput.innerHTML = '<p class="text-red-600">Error connecting to the blame network. Please check your Netlify Function setup.</p>';
-                console.error('Error calling Netlify Function:', error);
-            } finally {
-                loadingSpinner.classList.add('hidden');
-                blameCharlesBtn.disabled = false; // Re-enable button
+                });
+            } else {
+                console.error("blameCharlesBtn with ID 'blameCharlesBtn' not found in the DOM!"); // Specific error if button is missing
             }
         });
     </script>
